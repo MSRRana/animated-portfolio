@@ -4,7 +4,17 @@ A cutting-edge, animated developer portfolio built with React, TypeScript, Three
 
 ## 🌟 Live Demo
 
-**Development Server Running**: http://localhost:5175/
+**Live Site**: https://msrrana.github.io/animated-portfolio/
+
+## 🔒 Important: Main Branch Protection
+
+⚠️ **The `main` branch is PROTECTED and can NEVER be deleted!**
+
+- ❌ No direct pushes to main
+- ✅ All changes must go through Pull Requests
+- ✅ Requires 1 approval before merging
+- 📖 See [WORKFLOW_SUMMARY.md](WORKFLOW_SUMMARY.md) for workflow guide
+- 📖 See [docs/MAIN_BRANCH_PROTECTION.md](docs/MAIN_BRANCH_PROTECTION.md) for details
 
 ## ✨ Features
 
@@ -62,9 +72,19 @@ See **QUICK_START.md** for detailed customization guide.
 
 ## 📚 Documentation
 
-- **README.md** - This file (overview)
-- **QUICK_START.md** - Customization guide
-- **PROJECT_STATUS.md** - Current project status
+### Main Documentation
+- **[README.md](README.md)** - This file (overview)
+- **[WORKFLOW_SUMMARY.md](WORKFLOW_SUMMARY.md)** - Quick workflow reference
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+- **[ADD_YOUR_RESUME.md](ADD_YOUR_RESUME.md)** - Add your resume PDF
+
+### Detailed Guides
+- **[docs/MAIN_BRANCH_PROTECTION.md](docs/MAIN_BRANCH_PROTECTION.md)** - ⚠️ Main branch protection rules
+- **[docs/BRANCH_PROTECTION_GUIDE.md](docs/BRANCH_PROTECTION_GUIDE.md)** - Complete PR workflow guide
+- **[docs/RESUME_SETUP.md](docs/RESUME_SETUP.md)** - Resume download setup
+- **[docs/EMAILJS_SETUP.md](docs/EMAILJS_SETUP.md)** - Contact form setup
+- **[docs/CONTACT_FORM_ALTERNATIVES.md](docs/CONTACT_FORM_ALTERNATIVES.md)** - Alternative form solutions
+- **[.github/workflows/README.md](.github/workflows/README.md)** - GitHub Actions info
 
 ## 📄 License
 
