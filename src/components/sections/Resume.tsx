@@ -99,8 +99,8 @@ export function Resume() {
             className="flex flex-wrap justify-center gap-4"
           >
             <motion.a
-              href="/Manish_Singh_Rana_Resume.pdf"
-              download
+              href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
+              download="Manish_Singh_Rana_Resume.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold hover:shadow-neon transition-all"
@@ -339,7 +339,7 @@ export function Resume() {
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
                   <h3 className="text-2xl font-bold">Resume PDF</h3>
                   <motion.a
-                    href="/Manish_Singh_Rana_Resume.pdf"
+                    href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
@@ -355,7 +355,7 @@ export function Resume() {
                 <div className="hidden md:block">
                   <div className="relative w-full bg-white/5 rounded-xl overflow-hidden border border-white/10" style={{ height: '800px' }}>
                     <iframe
-                      src="/Manish_Singh_Rana_Resume.pdf#toolbar=1&navpanes=0&scrollbar=1"
+                      src={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf#toolbar=1&navpanes=0&scrollbar=1`}
                       className="w-full h-full"
                       title="Resume PDF"
                       style={{ border: 'none' }}
@@ -367,7 +367,7 @@ export function Resume() {
                 <div className="md:hidden">
                   <div className="relative w-full bg-white/5 rounded-xl overflow-hidden border border-white/10" style={{ height: '600px' }}>
                     <iframe
-                      src="/Manish_Singh_Rana_Resume.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+                      src={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
                       className="w-full h-full"
                       title="Resume PDF"
                       style={{ border: 'none' }}
@@ -387,15 +387,15 @@ export function Resume() {
                   <p className="text-sm text-gray-400 text-center">
                     If the PDF doesn't load, you can{' '}
                     <a
-                      href="/Manish_Singh_Rana_Resume.pdf"
-                      download
+                      href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
+                      download="Manish_Singh_Rana_Resume.pdf"
                       className="text-neon-cyan hover:text-neon-blue underline"
                     >
                       download it here
                     </a>
                     {' '}or{' '}
                     <a
-                      href="/Manish_Singh_Rana_Resume.pdf"
+                      href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-neon-cyan hover:text-neon-blue underline"
