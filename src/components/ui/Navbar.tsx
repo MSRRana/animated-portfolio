@@ -26,7 +26,9 @@ export function Navbar() {
   const handleResumeDownload = () => {
     // Create a temporary link element to trigger download
     const link = document.createElement('a')
-    link.href = '/assets/resume.pdf'
+    // Use relative path that works with base path
+    const basePath = import.meta.env.BASE_URL || '/'
+    link.href = `${basePath}assets/resume.pdf`
     link.download = 'Manish_Singh_Rana_Resume.pdf'
     document.body.appendChild(link)
     link.click()
