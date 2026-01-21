@@ -1,16 +1,16 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { Download, Eye, FileText, Briefcase, GraduationCap, Award, Code, ExternalLink } from 'lucide-react'
+import { Download, Eye, FileText, Briefcase, GraduationCap, Code, ExternalLink } from 'lucide-react'
 
 // Resume data
 const resumeData = {
-  summary: "Full Stack Developer with 5+ years of experience specializing in React Native, Next.js, and blockchain technologies. Proven track record of building scalable mobile and web applications.",
+  summary: "Eager to leverage my 2-3 years of experience in React and React Native as I transition to a full-stack developer role. I'm passionate about crafting seamless user experiences and excited to expand my skills on the backend to build end-to-end solutions.",
 
   experience: [
     {
-      title: "Senior React Native Developer",
-      company: "Healiom",
-      period: "2022 - Present",
+      title: "Front End Developer (React Native)",
+      company: "Healiom Inc, California",
+      period: "Aug 2022 - Present",
       achievements: [
         "Led development of Workspace & CareSpace apps with 100K+ downloads",
         "Integrated Zoom SDK and Stream Chat for telehealth features",
@@ -19,43 +19,49 @@ const resumeData = {
       ]
     },
     {
-      title: "Full Stack Developer",
-      company: "Freelance",
-      period: "2020 - 2022",
+      title: "Associate React Native Developer",
+      company: "Appsfactor technology pvt. Ltd., Haridwar",
+      period: "Jan 2022 - June 2022",
       achievements: [
-        "Developed 10+ React Native and Next.js applications",
-        "Built Web3 DApps with smart contract integration",
-        "Created 3D web experiences using Three.js and WebGL",
-        "Maintained 98% client satisfaction rating"
+        "Developed and maintained React Native mobile applications",
+        "Collaborated with cross-functional teams to deliver high-quality features",
+        "Implemented responsive UI components and state management solutions",
+        "Participated in code reviews and agile development processes"
       ]
     },
   ],
 
   education: [
     {
-      degree: "Bachelor of Technology in Computer Science",
-      institution: "Delhi Technological University",
-      period: "2015 - 2019",
+      degree: "Master of Science (Mathematics)",
+      institution: "Gurukul Kangri Deemed to be University",
+      period: "2020 - 2022",
       achievements: [
-        "GPA: 8.5/10",
-        "Specialization in Software Engineering",
-        "Final Year Project: AI-powered Healthcare Platform"
+        "Advanced studies in Mathematical Sciences",
+        "Applied mathematical concepts to software development",
+        "Research in computational mathematics"
+      ]
+    },
+    {
+      degree: "Bachelor of Science (Computer Science)",
+      institution: "Gurukul Kangri Deemed to be University",
+      period: "2017 - 2020",
+      achievements: [
+        "Comprehensive study of computer science fundamentals",
+        "Focus on programming and software development",
+        "Built strong foundation in algorithms and data structures"
       ]
     }
   ],
 
   skills: {
-    frontend: ["React", "Next.js", "React Native", "TypeScript", "Three.js", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "GraphQL", "PostgreSQL", "MongoDB", "Redis"],
-    cloud: ["AWS", "Docker", "CI/CD", "Git", "Vercel"],
-    emerging: ["Blockchain", "Web3", "Smart Contracts", "AI/ML Integration"]
+    frontend: ["React Native", "ReactJS", "Redux", "Javascript", "HTML", "CSS", "Tailwind CSS"],
+    backend: ["Firebase", "RESTful APIs"],
+    tools: ["Git", "Postman", "Slack", "JIRA", "Elastic Search"],
+    mobile: ["React Hooks", "Mobile App Development", "Cross-platform Development"]
   },
 
-  certifications: [
-    "AWS Certified Developer Associate",
-    "Meta React Native Certification",
-    "Ethereum Blockchain Developer",
-  ]
+  certifications: []
 }
 
 export function Resume() {
@@ -164,28 +170,15 @@ export function Resume() {
                   {resumeData.summary}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div className="glass p-6 rounded-xl">
-                    <Award className="w-8 h-8 text-neon-cyan mb-3" />
-                    <h4 className="text-xl font-bold mb-2">Certifications</h4>
-                    <ul className="space-y-2">
-                      {resumeData.certifications.map((cert, index) => (
-                        <li key={index} className="text-gray-300 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full" />
-                          {cert}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
+                <div className="grid grid-cols-1 gap-6 mt-8">
                   <div className="glass p-6 rounded-xl">
                     <Briefcase className="w-8 h-8 text-neon-violet mb-3" />
                     <h4 className="text-xl font-bold mb-2">Quick Stats</h4>
                     <ul className="space-y-2 text-gray-300">
-                      <li>✓ 5+ years of experience</li>
-                      <li>✓ 20+ projects delivered</li>
-                      <li>✓ 100K+ app downloads</li>
-                      <li>✓ 98% client satisfaction</li>
+                      <li>✓ 2-3 years of experience in React & React Native</li>
+                      <li>✓ Currently Front End Developer at Healiom Inc</li>
+                      <li>✓ Led development of apps with 100K+ downloads</li>
+                      <li>✓ Specialized in mobile application development</li>
                     </ul>
                   </div>
                 </div>
@@ -296,9 +289,9 @@ export function Resume() {
                   </div>
 
                   <div className="glass p-6 rounded-xl">
-                    <h3 className="text-xl font-bold mb-4 text-green-400">Cloud & DevOps</h3>
+                    <h3 className="text-xl font-bold mb-4 text-green-400">Tools</h3>
                     <div className="flex flex-wrap gap-2">
-                      {resumeData.skills.cloud.map((skill, index) => (
+                      {resumeData.skills.tools.map((skill, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
@@ -310,9 +303,9 @@ export function Resume() {
                   </div>
 
                   <div className="glass p-6 rounded-xl">
-                    <h3 className="text-xl font-bold mb-4 text-pink-400">Emerging Tech</h3>
+                    <h3 className="text-xl font-bold mb-4 text-pink-400">Mobile Development</h3>
                     <div className="flex flex-wrap gap-2">
-                      {resumeData.skills.emerging.map((skill, index) => (
+                      {resumeData.skills.mobile.map((skill, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
