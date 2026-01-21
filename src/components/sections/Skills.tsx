@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Code2, Database, Cloud, Sparkles, Braces, Cpu } from 'lucide-react'
+import { Code2, Database, Cloud, Sparkles } from 'lucide-react'
 
 const skillCategories = [
   {
