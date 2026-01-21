@@ -1,7 +1,6 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Mail, Github, Linkedin, Phone, Send, CheckCircle, XCircle } from 'lucide-react'
-import emailjs from '@emailjs/browser'
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://linkedin.com/in/manish-singh-rana-b8008b163', label: 'LinkedIn', color: 'hover:text-blue-500' },
@@ -25,21 +24,22 @@ export function Contact() {
     setSubmitStatus('idle')
 
     try {
-      // EmailJS configuration
-      // You'll need to replace these with your actual EmailJS credentials
-      const serviceId = 'service_your_service_id'
-      const templateId = 'template_your_template_id'
-      const publicKey = 'your_public_key'
+      // Web3Forms configuration - FREE unlimited emails!
+      const accessKey = '0ec939dc-388c-4479-a139-c36a496db6c2'
 
-      // Send email using EmailJS
-      const result = await emailjs.sendForm(
-        serviceId,
-        templateId,
-        formRef.current!,
-        publicKey
-      )
+      // Prepare form data
+      const formDataToSend = new FormData(formRef.current!)
+      formDataToSend.append('access_key', accessKey)
 
-      if (result.text === 'OK') {
+      // Send email using Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
         setSubmitStatus('success')
         setFormData({ name: '', email: '', message: '' })
 
@@ -47,6 +47,8 @@ export function Contact() {
         setTimeout(() => {
           setSubmitStatus('idle')
         }, 5000)
+      } else {
+        throw new Error('Failed to send message')
       }
     } catch (error) {
       console.error('Error sending email:', error)
@@ -95,7 +97,7 @@ export function Contact() {
               <motion.input
                 type="text"
                 id="name"
-                name="from_name"
+                name="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 onFocus={() => setFocused('name')}
@@ -123,7 +125,7 @@ export function Contact() {
               <motion.input
                 type="email"
                 id="email"
-                name="from_email"
+                name="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 onFocus={() => setFocused('email')}
