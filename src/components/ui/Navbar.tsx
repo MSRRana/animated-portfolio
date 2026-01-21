@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Download } from 'lucide-react'
 
 const navItems = [
   { name: 'Home', href: '#' },
@@ -21,6 +21,16 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleResumeDownload = () => {
+    // Create a temporary link element to trigger download
+    const link = document.createElement('a')
+    link.href = '/assets/resume.pdf'
+    link.download = 'Manish_Singh_Rana_Resume.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <motion.nav
@@ -55,10 +65,12 @@ export function Navbar() {
             </motion.a>
           ))}
           <motion.button
+            onClick={handleResumeDownload}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-5 lg:px-6 py-2 text-sm lg:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold hover:shadow-neon transition-all"
+            className="px-5 lg:px-6 py-2 text-sm lg:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold hover:shadow-neon transition-all flex items-center gap-2"
           >
+            <Download className="w-4 h-4" />
             Resume
           </motion.button>
         </div>
@@ -91,7 +103,11 @@ export function Navbar() {
                 {item.name}
               </a>
             ))}
-            <button className="px-6 py-2 text-sm sm:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold mt-2">
+            <button
+              onClick={handleResumeDownload}
+              className="px-6 py-2 text-sm sm:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold mt-2 flex items-center justify-center gap-2"
+            >
+              <Download className="w-4 h-4" />
               Resume
             </button>
           </div>
