@@ -129,7 +129,7 @@ export function Resume() {
         >
           {/* Tabs */}
           <div className="flex flex-wrap border-b border-white/10">
-            {tabs.map((tab, index) => (
+            {tabs.map((tab) => (
               <motion.button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
