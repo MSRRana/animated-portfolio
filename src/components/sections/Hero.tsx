@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { ArrowDown } from "lucide-react";
-import { Scene } from "../3d/Scene";
+
+// Lazy load the 3D Scene component for better initial page load
+const Scene = lazy(() => import("../3d/Scene").then(module => ({ default: module.Scene })));
 
 const roles = [
   "Full Stack Developer",
@@ -22,7 +24,9 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* 3D Background */}
-      <Scene />
+      <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
+        <Scene />
+      </Suspense>
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black pointer-events-none" />
@@ -119,10 +123,14 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <button className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold text-base sm:text-lg overflow-hidden transition-all hover:scale-105">
+            <a
+              href="#projects"
+              className="group relative inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold text-base sm:text-lg overflow-hidden transition-all hover:scale-105"
+              aria-label="Navigate to projects section"
+            >
               <span className="relative z-10">Explore My Work</span>
               <div className="absolute inset-0 bg-gradient-to-r from-neon-violet to-neon-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </button>
+            </a>
           </motion.div>
 
           {/* Scroll Indicator */}
@@ -130,8 +138,10 @@ export function Hero() {
             className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
+            role="img"
+            aria-label="Scroll down indicator"
           >
-            <ArrowDown className="w-6 h-6 text-neon-cyan" />
+            <ArrowDown className="w-6 h-6 text-neon-cyan" aria-hidden="true" />
           </motion.div>
         </motion.div>
       </div>

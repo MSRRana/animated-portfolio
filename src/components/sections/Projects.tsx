@@ -88,7 +88,8 @@ export function Projects() {
                 <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
                   <motion.img
                     src={project.image}
-                    alt={project.title}
+                    alt={`${project.title} - ${project.description.substring(0, 50)}...`}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                     animate={{
                       scale: hoveredProject === project.id ? 1.1 : 1,

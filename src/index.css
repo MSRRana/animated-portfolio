@@ -6,7 +6,12 @@
 
 @layer base {
   body {
-    @apply bg-black text-white font-sans antialiased;
+    @apply bg-black text-white font-sans antialiased transition-colors duration-300;
+  }
+
+  /* Light mode styles */
+  .light body {
+    @apply bg-white text-gray-900;
   }
 
   html {
@@ -20,7 +25,12 @@
   }
 
   .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 transition-colors duration-300;
+  }
+
+  /* Light mode glass effect */
+  .light .glass {
+    @apply bg-gray-900/5 border-gray-900/10;
   }
 
   .glow-border {
@@ -46,15 +56,39 @@
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #00d4ff, #a855f7);
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #06b6d4, #ec4899);
+  background: linear-gradient(180deg, #06b6d4, #7c3aed);
 }
 
-/* Selection */
-::selection {
-  background-color: rgba(0, 212, 255, 0.3);
-  color: white;
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+}
+
+/* Focus visible styles for better keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #00d4ff;
+  outline-offset: 2px;
+  border-radius: 4px;
 }

@@ -1,46 +1,10 @@
-# Animated Portfolio - Futuristic & Immersive
+# Animated Portfolio - Manish Singh Rana
 
-A cutting-edge, animated developer portfolio built with React, TypeScript, Three.js, and Framer Motion. Features stunning 3D graphics, smooth animations, and an immersive user experience.
+**Live Demo:** https://msrrana.github.io/animated-portfolio/
 
-## 🌟 Live Demo
+A cutting-edge, animated developer portfolio built with React 19, TypeScript, Three.js, and Framer Motion.
 
-**Development Server Running**: http://localhost:5175/
-
-## ✨ Features
-
-### Core Features
-- **3D Animated Hero Section** - Floating orb with particle effects
-- **Interactive Timeline** - Animated journey through your experience
-- **Floating Skill Cards** - Hover effects with progress bars
-- **Project Showcase** - Smooth animations with image galleries
-- **Animated Contact Form** - Floating labels and micro-interactions
-- **Custom Cursor** - Magnetic cursor with trail effects
-- **Glassmorphism UI** - Modern frosted glass effects throughout
-- **Smooth Scroll Animations** - Framer Motion scroll-triggered animations
-
-### Design Elements
-- Dark mode with neon accents (blue, violet, cyan)
-- Gradient text effects
-- Glow shadows
-- Particle backgrounds
-- Responsive design
-- Custom scrollbar
-
-## 🚀 Tech Stack
-
-- **React 19** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS v3** - Styling
-- **Framer Motion** - Animations
-- **Three.js** - 3D graphics
-- **@react-three/fiber** - React Three.js renderer
-- **@react-three/drei** - Three.js helpers
-- **Lucide React** - Icons
-
-## 📦 Getting Started
-
-### Installation
+## 🚀 Quick Start
 
 ```bash
 # Install dependencies
@@ -51,21 +15,44 @@ npm run dev
 
 # Build for production
 npm run build
-
-# Preview production build
-npm run preview
 ```
-
-## 🎨 Customization
-
-See **QUICK_START.md** for detailed customization guide.
 
 ## 📚 Documentation
 
-- **README.md** - This file (overview)
-- **QUICK_START.md** - Customization guide
-- **PROJECT_STATUS.md** - Current project status
+**For complete documentation, see [docs/COMPLETE_DOCUMENTATION.md](docs/COMPLETE_DOCUMENTATION.md)**
 
-## 📄 License
+This single comprehensive file contains everything you need:
+- Project overview & features
+- Complete setup guide
+- Contact form & resume setup
+- Git workflow & deployment
+- Performance optimization
+- SEO & accessibility
+- Testing & troubleshooting
+- Configuration reference
+- And much more!
 
-MIT License - feel free to use this template for your own portfolio!
+## ✨ Key Features
+
+- 3D animated hero with Three.js
+- Dark/Light mode toggle
+- Enhanced contact form with validation
+- Interactive resume section
+- Fully responsive design
+- SEO optimized (95/100)
+- WCAG 2.1 AA accessible
+- GitHub Actions deployment
+
+## 🛠️ Tech Stack
+
+React 19 • TypeScript • Vite • Tailwind CSS • Framer Motion • Three.js
+
+## 📝 License
+
+MIT License - Feel free to use this template for your own portfolio!
+
+---
+
+**Built with ❤️ by Manish Singh Rana**
+
+💼 [LinkedIn](https://linkedin.com/in/manish-singh-rana-b8008b163) • 🐙 [GitHub](https://github.com/MSRRana) • 📧 [Email](mailto:manishsinghrana469@gmail.com)

@@ -7,6 +7,7 @@ const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Resume', href: '#resume' },
   { name: 'Contact', href: '#contact' },
 ]
 
@@ -53,7 +54,7 @@ export function Navbar() {
         </motion.a>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
           {navItems.map((item) => (
             <motion.a
               key={item.name}
@@ -68,10 +69,10 @@ export function Navbar() {
             onClick={handleResumeDownload}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-5 lg:px-6 py-2 text-sm lg:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold hover:shadow-neon transition-all flex items-center gap-2"
+            className="px-4 lg:px-5 py-2 text-sm lg:text-base bg-gradient-to-r from-neon-blue to-neon-violet rounded-full font-semibold hover:shadow-neon transition-all flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            Resume
+            Download
           </motion.button>
         </div>
 
