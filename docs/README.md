@@ -27,6 +27,13 @@ Welcome to your animated portfolio documentation! This folder contains all the g
 - Vercel serverless functions
 - Comparison table of all options
 
+### 📄 Resume Download
+**[RESUME_SETUP.md](./RESUME_SETUP.md)** - Add your resume PDF
+- How to add resume PDF to your portfolio
+- Download functionality already configured
+- Testing and deployment instructions
+- Troubleshooting guide
+
 ---
 
 ## 🚀 Quick Setup Guide
