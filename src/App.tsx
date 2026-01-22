@@ -1,9 +1,13 @@
 import { Navbar } from './components/ui/Navbar'
 import { CustomCursor } from './components/ui/CustomCursor'
+import { ProgressBar } from './components/ui/ProgressBar'
+import { BackToTop } from './components/ui/BackToTop'
+import { SectionNav } from './components/ui/SectionNav'
 import { Hero } from './components/sections/Hero'
 import { About } from './components/sections/About'
 import { Skills } from './components/sections/Skills'
 import { Projects } from './components/sections/Projects'
+import { Testimonials } from './components/sections/Testimonials'
 import { Resume } from './components/sections/Resume'
 import { Contact } from './components/sections/ContactEnhanced'
 
@@ -11,6 +15,9 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-black text-gray-950 dark:text-white md:cursor-none transition-colors duration-300">
       <CustomCursor />
+      <ProgressBar />
+      <BackToTop />
+      <SectionNav />
 
       {/* Skip to main content link for accessibility */}
       <a
@@ -27,6 +34,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <Testimonials />
         <Resume />
         <Contact />
       </main>
