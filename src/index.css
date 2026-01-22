@@ -103,3 +103,62 @@
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Disable browser autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(10, 10, 10, 1) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Hide placeholder when autofill is active */
+input:-webkit-autofill::placeholder,
+textarea:-webkit-autofill::placeholder {
+  color: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Hide placeholder on focus when there's content */
+input:not(:placeholder-shown)::placeholder,
+textarea:not(:placeholder-shown)::placeholder {
+  opacity: 0;
+}
+
+/* Hide autocomplete dropdown buttons */
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+  margin: 0;
+}
+
+/* Style the datalist/autocomplete dropdown */
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+input::-webkit-list-button {
+  display: none !important;
+}
+
+/* Custom contentEditable input placeholder */
+.empty-input:empty::before {
+  content: attr(data-placeholder);
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.empty-input:focus::before {
+  color: #9ca3af;
+}

@@ -266,7 +266,7 @@ export function Resume() {
                       {resumeData.skills.frontend.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
+                          className="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-full text-sm border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300"
                         >
                           {skill}
                         </span>
@@ -280,7 +280,7 @@ export function Resume() {
                       {resumeData.skills.backend.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
+                          className="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-full text-sm border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300"
                         >
                           {skill}
                         </span>
@@ -294,7 +294,7 @@ export function Resume() {
                       {resumeData.skills.tools.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
+                          className="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-full text-sm border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300"
                         >
                           {skill}
                         </span>
@@ -308,7 +308,7 @@ export function Resume() {
                       {resumeData.skills.mobile.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-white/5 rounded-full text-sm border border-white/10"
+                          className="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-full text-sm border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300"
                         >
                           {skill}
                         </span>

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Navbar } from './components/ui/Navbar'
 import { CustomCursor } from './components/ui/CustomCursor'
 import { ProgressBar } from './components/ui/ProgressBar'
@@ -5,12 +6,21 @@ import { BackToTop } from './components/ui/BackToTop'
 import { SectionNav } from './components/ui/SectionNav'
 import { ParticleField } from './components/effects/ParticleField'
 import { Hero } from './components/sections/Hero'
-import { About } from './components/sections/About'
-import { Skills } from './components/sections/Skills'
-import { Projects } from './components/sections/Projects'
-import { Games } from './components/sections/Games'
-import { Resume } from './components/sections/Resume'
-import { Contact } from './components/sections/ContactEnhanced'
+
+// Lazy load below-the-fold sections for faster initial load
+const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About })))
+const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills })))
+const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects })))
+const Games = lazy(() => import('./components/sections/Games').then(m => ({ default: m.Games })))
+const Resume = lazy(() => import('./components/sections/Resume').then(m => ({ default: m.Resume })))
+const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact })))
+
+// Loading fallback component
+const SectionLoading = () => (
+  <div className="min-h-[50vh] flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-neon-cyan border-t-transparent rounded-full animate-spin" />
+  </div>
+)
 
 function App() {
   return (
@@ -33,12 +43,24 @@ function App() {
 
       <main id="main-content" role="main">
         <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Games />
-        <Resume />
-        <Contact />
+        <Suspense fallback={<SectionLoading />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Skills />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Games />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Resume />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Contact />
+        </Suspense>
       </main>
     </div>
   )

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense, useMemo, useCallback, useRef, memo } from "react";
 import { ArrowDown } from "lucide-react";
 import { TerminalGame } from "../games/TerminalGame";
 
@@ -12,35 +12,81 @@ const roles = [
   "AI Integration Specialist",
 ];
 
+// Pre-computed name letters to avoid recreation
+const NAME_LETTERS = ["M", "a", "n", "i", "s", "h", " ", "S", "i", "n", "g", "h", " ", "R", "a", "n", "a"];
+
+// Memoized particle component to prevent re-renders
+const FloatingParticle = memo(function FloatingParticle({ index, style }: { index: number; style: React.CSSProperties }) {
+  const duration = 3 + (index % 3);
+  const delay = (index * 0.5) % 2;
+
+  return (
+    <motion.div
+      className="absolute w-1 h-1 bg-neon-blue rounded-full"
+      style={style}
+      animate={{
+        y: [0, -30, 0],
+        opacity: [0, 1, 0],
+      }}
+      transition={{
+        duration,
+        repeat: Infinity,
+        delay,
+      }}
+    />
+  );
+});
+
 export function Hero() {
   const [currentRole, setCurrentRole] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [showTerminal, setShowTerminal] = useState(false);
+  const lastMouseUpdate = useRef(0);
 
-  // Generate orbit particles
-  const orbitParticles = Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    angle: (i * 360) / 8,
-    delay: i * 0.3,
-  }));
+  // Memoize orbit particles (reduced from 8 to 5)
+  const orbitParticles = useMemo(() =>
+    Array.from({ length: 5 }, (_, i) => ({
+      id: i,
+      angle: (i * 360) / 5,
+      delay: i * 0.4,
+    })),
+  []);
 
-  // Generate matrix rain characters
-  const matrixChars = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    char: String.fromCharCode(0x30A0 + Math.random() * 96), // Japanese characters
-    position: (i * 360) / 12,
-    delay: Math.random() * 2,
-  }));
+  // Memoize matrix chars (reduced from 12 to 6)
+  const matrixChars = useMemo(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      id: i,
+      char: String.fromCharCode(0x30A0 + (i * 16)), // Deterministic chars
+      position: (i * 360) / 6,
+      delay: i * 0.3,
+    })),
+  []);
+
+  // Memoize floating particles (reduced from 50 to 15)
+  const floatingParticles = useMemo(() =>
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      style: {
+        left: `${(i * 7) % 100}%`,
+        top: `${(i * 13) % 100}%`,
+      } as React.CSSProperties,
+    })),
+  []);
 
   // Parallax depth effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { stiffness: 150, damping: 20 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), springConfig);
+  const springConfig = { stiffness: 100, damping: 25 }; // Reduced stiffness
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), springConfig); // Reduced rotation
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), springConfig);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // Throttled mouse handler for parallax effect
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const now = performance.now();
+    if (now - lastMouseUpdate.current < 32) return; // Throttle to ~30fps
+    lastMouseUpdate.current = now;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -48,12 +94,12 @@ export function Hero() {
     const y = (e.clientY - centerY) / rect.height;
     mouseX.set(x);
     mouseY.set(y);
-  };
+  }, [mouseX, mouseY]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     mouseX.set(0);
     mouseY.set(0);
-  };
+  }, [mouseX, mouseY]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -92,26 +138,10 @@ export function Hero() {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black pointer-events-none" />
 
-      {/* Particles */}
+      {/* Particles - Reduced from 50 to 15 with memoized component */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-neon-blue rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
+        {floatingParticles.map((particle) => (
+          <FloatingParticle key={particle.id} index={particle.id} style={particle.style} />
         ))}
       </div>
 
@@ -141,102 +171,68 @@ export function Hero() {
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* Matrix Rain Border */}
+              {/* Matrix Rain Border - Reduced from 12 to 6 */}
               {matrixChars.map((char) => (
                 <motion.div
                   key={char.id}
-                  className="absolute top-1/2 left-1/2 -ml-2 -mt-2 pointer-events-none"
-                  style={{
-                    transformOrigin: '50% 50%',
+                  className="absolute top-1/2 left-1/2 -ml-2 -mt-2 pointer-events-none text-neon-cyan font-mono text-xs font-bold"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: [0, 1, 0],
+                    x: Math.cos((char.position * Math.PI) / 180) * 90,
+                    y: Math.sin((char.position * Math.PI) / 180) * 90,
+                  }}
+                  transition={{
+                    duration: 3,
+                    delay: char.delay + 2,
+                    repeat: Infinity,
+                    repeatDelay: 2,
                   }}
                 >
-                  <motion.div
-                    className="text-neon-cyan font-mono text-xs font-bold"
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: [0, 1, 0],
-                      x: Math.cos((char.position * Math.PI) / 180) * 90,
-                      y: Math.sin((char.position * Math.PI) / 180) * 90,
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: char.delay + 2,
-                      repeat: Infinity,
-                      repeatDelay: 1,
-                      ease: "linear",
-                    }}
-                  >
-                    {char.char}
-                  </motion.div>
+                  {char.char}
                 </motion.div>
               ))}
 
-              {/* Particle Orbit System */}
+              {/* Particle Orbit System - Reduced from 8 to 5, simplified animation */}
               {orbitParticles.map((particle) => (
                 <motion.div
                   key={particle.id}
-                  className="absolute top-1/2 left-1/2 w-2 h-2 -ml-1 -mt-1"
-                  initial={{ opacity: 0, scale: 0 }}
+                  className="absolute top-1/2 left-1/2 w-2 h-2 -ml-1 -mt-1 rounded-full bg-gradient-to-br from-neon-cyan to-neon-violet"
+                  initial={{ opacity: 0 }}
                   animate={{
                     opacity: [0, 1, 1, 0],
-                    scale: [0, 1, 1, 0],
+                    x: Math.cos((particle.angle * Math.PI) / 180) * 80,
+                    y: Math.sin((particle.angle * Math.PI) / 180) * 80,
                     rotate: 360,
                   }}
                   transition={{
-                    duration: 4,
+                    duration: 5,
                     delay: particle.delay + 2,
                     repeat: Infinity,
-                    ease: "linear",
                   }}
-                  style={{
-                    transformOrigin: '50% 50%',
-                  }}
-                >
-                  <motion.div
-                    className="w-full h-full rounded-full bg-gradient-to-br from-neon-cyan to-neon-violet shadow-lg shadow-neon-cyan/50"
-                    animate={{
-                      x: [
-                        Math.cos((particle.angle * Math.PI) / 180) * 80,
-                        Math.cos(((particle.angle + 360) * Math.PI) / 180) * 80,
-                      ],
-                      y: [
-                        Math.sin((particle.angle * Math.PI) / 180) * 80,
-                        Math.sin(((particle.angle + 360) * Math.PI) / 180) * 80,
-                      ],
-                    }}
-                    transition={{
-                      duration: 4,
-                      delay: particle.delay + 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                </motion.div>
+                />
               ))}
 
-              {/* Electric Arc Effect */}
+              {/* Electric Arc Effect - Simplified */}
               <motion.div
                 className="absolute inset-0 rounded-full pointer-events-none"
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: [0, 0, 1, 0, 1, 0, 0],
-                  scale: [1, 1, 1.02, 1, 1.03, 1, 1],
+                  opacity: [0, 1, 0],
+                  scale: [1, 1.02, 1],
                 }}
                 transition={{
-                  duration: 0.8,
+                  duration: 0.5,
                   delay: 5,
                   repeat: Infinity,
-                  repeatDelay: 7,
-                  times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1],
+                  repeatDelay: 10,
                 }}
                 style={{
                   background: `radial-gradient(circle at 50% 50%,
                     transparent 45%,
-                    rgba(0, 245, 255, 0.8) 48%,
-                    rgba(139, 92, 246, 0.6) 49%,
+                    rgba(0, 245, 255, 0.6) 48%,
                     transparent 52%
                   )`,
-                  filter: 'blur(1px)',
                 }}
               />
 
@@ -331,47 +327,24 @@ export function Hero() {
                     }}
                   />
 
-                  {/* Holographic Shimmer Effect */}
+                  {/* Holographic Shimmer Effect - Simplified single animation */}
                   <motion.div
                     className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: 0, x: '-100%' }}
                     animate={{
-                      opacity: [0, 0.6, 0],
+                      opacity: [0, 0.5, 0],
+                      x: ['-100%', '100%'],
                     }}
                     transition={{
-                      duration: 2,
-                      delay: 2,
+                      duration: 2.5,
+                      delay: 3,
                       repeat: Infinity,
-                      repeatDelay: 8,
-                      ease: "easeInOut",
+                      repeatDelay: 10,
                     }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 w-[200%] h-full"
-                      animate={{
-                        x: ['-100%', '100%'],
-                      }}
-                      transition={{
-                        duration: 2,
-                        delay: 2,
-                        repeat: Infinity,
-                        repeatDelay: 8,
-                        ease: "easeInOut",
-                      }}
-                      style={{
-                        background: `linear-gradient(
-                          90deg,
-                          transparent 0%,
-                          rgba(255, 0, 255, 0.1) 20%,
-                          rgba(0, 255, 255, 0.2) 40%,
-                          rgba(255, 255, 0, 0.2) 50%,
-                          rgba(0, 255, 255, 0.2) 60%,
-                          rgba(255, 0, 255, 0.1) 80%,
-                          transparent 100%
-                        )`,
-                      }}
-                    />
-                  </motion.div>
+                    style={{
+                      background: `linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent)`,
+                    }}
+                  />
                 </div>
               </div>
 
@@ -387,34 +360,15 @@ export function Hero() {
             onClick={handleNameClick}
             title="Click 3 times for a surprise!"
           >
-            {[
-              "M",
-              "a",
-              "n",
-              "i",
-              "s",
-              "h",
-              " ",
-              "S",
-              "i",
-              "n",
-              "g",
-              "h",
-              " ",
-              "R",
-              "a",
-              "n",
-              "a",
-            ].map((letter, i) => (
+            {NAME_LETTERS.map((letter, i) => (
               <motion.span
                 key={i}
                 className="inline-block text-gradient"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.5,
-                  delay: 0.3 + i * 0.05,
-                  ease: [0.6, 0.05, 0.01, 0.9],
+                  duration: 0.4,
+                  delay: 0.3 + i * 0.04,
                 }}
               >
                 {letter === " " ? "\u00A0" : letter}

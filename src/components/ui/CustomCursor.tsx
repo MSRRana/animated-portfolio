@@ -1,166 +1,135 @@
-import { useEffect, useState, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { memo, useEffect, useState, useCallback, useRef } from 'react'
+import { motion, useSpring, useMotionValue } from 'framer-motion'
 
-export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
-  const [cursorVariant, setCursorVariant] = useState<'default' | 'button' | 'link'>('default')
-  const [isMobile, setIsMobile] = useState(false)
-  const hoveredElementRef = useRef<HTMLElement | null>(null)
+type CursorType = 'default' | 'hover' | 'text'
+
+// Optimized CustomCursor with reduced animations and memoization
+export const CustomCursor = memo(function CustomCursor() {
+  const [cursorType, setCursorType] = useState<CursorType>('default')
+  const [isClicking, setIsClicking] = useState(false)
+  const [isMobile, setIsMobile] = useState(true) // Default to true to prevent flash
+  const rafRef = useRef<number>(0)
+  const lastUpdateRef = useRef(0)
+
+  const cursorX = useMotionValue(-100)
+  const cursorY = useMotionValue(-100)
+
+  // Single spring config - reduced from 4 to 2 springs
+  const springConfig = { damping: 28, stiffness: 300, mass: 0.5 }
+  const x = useSpring(cursorX, springConfig)
+  const y = useSpring(cursorY, springConfig)
+
+  // Throttled mouse position update
+  const updatePosition = useCallback((clientX: number, clientY: number) => {
+    const now = performance.now()
+    // Throttle to ~60fps
+    if (now - lastUpdateRef.current < 16) return
+    lastUpdateRef.current = now
+
+    cancelAnimationFrame(rafRef.current)
+    rafRef.current = requestAnimationFrame(() => {
+      cursorX.set(clientX)
+      cursorY.set(clientY)
+    })
+  }, [cursorX, cursorY])
 
   useEffect(() => {
-    // Check if device is mobile/tablet
+    // Check mobile once on mount
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window)
+      const isTouchDevice = window.innerWidth < 768 || 'ontouchstart' in window
+      setIsMobile(isTouchDevice)
     }
-
     checkMobile()
-    window.addEventListener('resize', checkMobile)
 
-    const updateMousePosition = (e: MouseEvent) => {
-      let finalX = e.clientX
-      let finalY = e.clientY
+    if (isMobile) return
 
-      // Magnetic effect - pull cursor toward interactive elements
-      const target = e.target as HTMLElement
-      const interactive = target.closest('button, a, [data-magnetic]') as HTMLElement
-
-      if (interactive) {
-        hoveredElementRef.current = interactive
-        const rect = interactive.getBoundingClientRect()
-        const centerX = rect.left + rect.width / 2
-        const centerY = rect.top + rect.height / 2
-
-        // Calculate distance from center
-        const dx = finalX - centerX
-        const dy = finalY - centerY
-        const distance = Math.sqrt(dx * dx + dy * dy)
-
-        // Apply magnetic pull if within range
-        const magneticRange = 80
-        if (distance < magneticRange) {
-          const pullStrength = 0.3
-          finalX = finalX - dx * pullStrength
-          finalY = finalY - dy * pullStrength
-        }
-      } else {
-        hoveredElementRef.current = null
-      }
-
-      setMousePosition({ x: e.clientX, y: e.clientY })
-      setTargetPosition({ x: finalX, y: finalY })
+    const handleMouseMove = (e: MouseEvent) => {
+      updatePosition(e.clientX, e.clientY)
     }
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const button = target.closest('button')
-      const link = target.closest('a')
 
-      if (button) {
-        setIsHovering(true)
-        setCursorVariant('button')
-      } else if (link) {
-        setIsHovering(true)
-        setCursorVariant('link')
+      if (target.closest('input, textarea')) {
+        setCursorType('text')
+      } else if (target.closest('button, a, [data-cursor-hover]')) {
+        setCursorType('hover')
       } else {
-        setIsHovering(false)
-        setCursorVariant('default')
+        setCursorType('default')
       }
     }
 
-    window.addEventListener('mousemove', updateMousePosition)
-    window.addEventListener('mouseover', handleMouseOver)
+    const handleMouseDown = () => setIsClicking(true)
+    const handleMouseUp = () => setIsClicking(false)
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    window.addEventListener('mouseover', handleMouseOver, { passive: true })
+    window.addEventListener('mousedown', handleMouseDown, { passive: true })
+    window.addEventListener('mouseup', handleMouseUp, { passive: true })
+    window.addEventListener('resize', checkMobile, { passive: true })
 
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition)
+      cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseover', handleMouseOver)
+      window.removeEventListener('mousedown', handleMouseDown)
+      window.removeEventListener('mouseup', handleMouseUp)
       window.removeEventListener('resize', checkMobile)
     }
-  }, [])
+  }, [isMobile, updatePosition])
 
-  // Don't render custom cursor on mobile devices
   if (isMobile) return null
 
-  const cursorVariants = {
-    default: {
-      scale: 1,
-      backgroundColor: 'rgba(0, 245, 255, 0)',
-      border: '2px solid rgba(255, 255, 255, 1)',
-    },
-    button: {
-      scale: 1.8,
-      backgroundColor: 'rgba(0, 245, 255, 0.1)',
-      border: '2px solid rgba(0, 245, 255, 1)',
-    },
-    link: {
-      scale: 1.5,
-      backgroundColor: 'rgba(139, 92, 246, 0.1)',
-      border: '2px solid rgba(139, 92, 246, 1)',
-    },
-  }
+  const isHovering = cursorType === 'hover'
+  const isTextInput = cursorType === 'text'
 
   return (
     <>
-      {/* Main cursor with magnetic effect */}
+      {/* Outer ring - simplified */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-50 mix-blend-difference"
-        animate={{
-          x: targetPosition.x - 16,
-          y: targetPosition.y - 16,
-          ...cursorVariants[cursorVariant],
-        }}
-        transition={{
-          x: { type: 'spring', stiffness: 300, damping: 20 },
-          y: { type: 'spring', stiffness: 300, damping: 20 },
-          scale: { type: 'spring', stiffness: 400, damping: 25 },
-          backgroundColor: { duration: 0.2 },
-          border: { duration: 0.2 },
-        }}
+        className="fixed pointer-events-none z-[9998] will-change-transform"
+        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
       >
-        <div className="w-full h-full rounded-full" />
+        <motion.div
+          className="rounded-full"
+          animate={{
+            width: isHovering ? 48 : 32,
+            height: isHovering ? 48 : 32,
+            borderColor: isHovering ? 'rgba(16, 185, 129, 0.6)' : 'rgba(255, 255, 255, 0.3)',
+            scale: isClicking ? 0.9 : 1,
+          }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          style={{
+            border: '1px solid',
+            background: isHovering ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+          }}
+        />
       </motion.div>
 
-      {/* Trail cursor */}
+      {/* Center dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 pointer-events-none z-50 rounded-full"
-        style={{
-          backgroundColor: cursorVariant === 'button' ? '#00f5ff' : cursorVariant === 'link' ? '#8b5cf6' : '#00f5ff',
-        }}
-        animate={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-          scale: isHovering ? 1.5 : 1,
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 150,
-          damping: 15,
-          mass: 0.1,
-        }}
-      />
-
-      {/* Hover glow effect */}
-      {isHovering && (
-        <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-40"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            x: targetPosition.x - 30,
-            y: targetPosition.y - 30,
-            opacity: 0.3,
-            scale: 1,
-          }}
-          exit={{ opacity: 0, scale: 0 }}
-          transition={{
-            type: 'spring',
-            stiffness: 200,
-            damping: 20,
-          }}
-        >
-          <div className="w-16 h-16 rounded-full bg-neon-cyan blur-xl" />
-        </motion.div>
-      )}
+        className="fixed pointer-events-none z-[9999] will-change-transform"
+        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
+      >
+        {isTextInput ? (
+          <div className="w-0.5 h-5 bg-emerald-400 rounded-full" />
+        ) : (
+          <motion.div
+            className="rounded-full"
+            animate={{
+              width: isClicking ? 6 : 8,
+              height: isClicking ? 6 : 8,
+              backgroundColor: isHovering ? '#10b981' : '#ffffff',
+            }}
+            transition={{ duration: 0.15 }}
+            style={{
+              boxShadow: isHovering
+                ? '0 0 12px rgba(16, 185, 129, 0.6)'
+                : '0 0 8px rgba(255, 255, 255, 0.4)',
+            }}
+          />
+        )}
+      </motion.div>
     </>
   )
-}
+})

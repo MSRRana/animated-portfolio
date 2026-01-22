@@ -1,5 +1,4 @@
-import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { memo, useEffect, useRef } from 'react'
 
 interface Particle {
   x: number
@@ -11,108 +10,149 @@ interface Particle {
   color: string
 }
 
-export function ParticleField() {
+// Optimized ParticleField with reduced particles, squared distance, and throttled mouse
+export const ParticleField = memo(function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
-  const mouseRef = useRef({ x: 0, y: 0 })
-  const animationFrameRef = useRef<number>(null)
+  const mouseRef = useRef({ x: -1000, y: -1000 })
+  const animationFrameRef = useRef<number | null>(null)
+  const lastMouseUpdate = useRef(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
-    // Set canvas size
+    // Debounced resize handler
+    let resizeTimeout: ReturnType<typeof setTimeout>
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        const dpr = Math.min(window.devicePixelRatio, 2)
+        canvas.width = window.innerWidth * dpr
+        canvas.height = window.innerHeight * dpr
+        canvas.style.width = `${window.innerWidth}px`
+        canvas.style.height = `${window.innerHeight}px`
+        ctx.scale(dpr, dpr)
+      }, 100)
     }
     resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
+    window.addEventListener('resize', resizeCanvas, { passive: true })
 
-    // Initialize particles
-    const particleCount = Math.min(window.innerWidth / 10, 100)
-    const colors = ['#00f5ff', '#6366f1', '#8b5cf6'] // cyan, blue, violet
+    // Reduced particle count - 30-40 instead of 100
+    const particleCount = Math.min(Math.floor(window.innerWidth / 30), 40)
+    const colors = ['#00f5ff', '#6366f1', '#8b5cf6']
 
     particlesRef.current = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.5 + 0.2,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.4 + 0.1,
       color: colors[Math.floor(Math.random() * colors.length)],
     }))
 
-    // Mouse move handler
+    // Throttled mouse handler
     const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now()
+      if (now - lastMouseUpdate.current < 50) return // Throttle to 20fps
+      lastMouseUpdate.current = now
       mouseRef.current = { x: e.clientX, y: e.clientY }
     }
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
-    // Animation loop
+    // Pre-calculate connection distance squared (avoid sqrt)
+    const connectionDistSq = 80 * 80
+    const mouseDistSq = 120 * 120
+
+    // Animation loop with optimizations
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      const width = window.innerWidth
+      const height = window.innerHeight
 
-      particlesRef.current.forEach((particle, i) => {
-        // Mouse interaction - particles move away from cursor
-        const dx = particle.x - mouseRef.current.x
-        const dy = particle.y - mouseRef.current.y
-        const distance = Math.sqrt(dx * dx + dy * dy)
-        const maxDistance = 150
+      ctx.clearRect(0, 0, width, height)
 
-        if (distance < maxDistance) {
-          const force = (maxDistance - distance) / maxDistance
-          particle.vx += (dx / distance) * force * 0.2
-          particle.vy += (dy / distance) * force * 0.2
+      const particles = particlesRef.current
+      const mouseX = mouseRef.current.x
+      const mouseY = mouseRef.current.y
+
+      // Batch particle updates
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i]
+
+        // Mouse interaction using squared distance (no sqrt)
+        const mdx = p.x - mouseX
+        const mdy = p.y - mouseY
+        const mouseDistSqCalc = mdx * mdx + mdy * mdy
+
+        if (mouseDistSqCalc < mouseDistSq && mouseDistSqCalc > 0) {
+          const force = (1 - mouseDistSqCalc / mouseDistSq) * 0.15
+          const invDist = 1 / Math.sqrt(mouseDistSqCalc) // Only sqrt when needed
+          p.vx += mdx * invDist * force
+          p.vy += mdy * invDist * force
         }
 
         // Apply velocity with damping
-        particle.x += particle.vx
-        particle.y += particle.vy
-        particle.vx *= 0.95
-        particle.vy *= 0.95
+        p.x += p.vx
+        p.y += p.vy
+        p.vx *= 0.96
+        p.vy *= 0.96
 
         // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.width
-        if (particle.x > canvas.width) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.height
-        if (particle.y > canvas.height) particle.y = 0
+        if (p.x < 0) p.x = width
+        else if (p.x > width) p.x = 0
+        if (p.y < 0) p.y = height
+        else if (p.y > height) p.y = 0
+      }
 
-        // Draw particle
+      // Batch draw particles first
+      ctx.globalAlpha = 1
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i]
         ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = particle.color
-        ctx.globalAlpha = particle.opacity
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = p.color
+        ctx.globalAlpha = p.opacity
         ctx.fill()
+      }
 
-        // Draw connections to nearby particles
-        particlesRef.current.slice(i + 1).forEach((otherParticle) => {
-          const dx = particle.x - otherParticle.x
-          const dy = particle.y - otherParticle.y
-          const distance = Math.sqrt(dx * dx + dy * dy)
+      // Draw connections with spatial optimization
+      // Only check nearby particles (reduced from O(n²) to O(n*k) where k is small)
+      ctx.lineWidth = 0.3
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i]
+        // Only check next 10 particles instead of all remaining
+        const checkLimit = Math.min(i + 10, particles.length)
+        for (let j = i + 1; j < checkLimit; j++) {
+          const p2 = particles[j]
+          const dx = p1.x - p2.x
+          const dy = p1.y - p2.y
+          const distSq = dx * dx + dy * dy
 
-          if (distance < 100) {
+          if (distSq < connectionDistSq) {
+            const opacity = (1 - distSq / connectionDistSq) * 0.15
             ctx.beginPath()
-            ctx.moveTo(particle.x, particle.y)
-            ctx.lineTo(otherParticle.x, otherParticle.y)
-            ctx.strokeStyle = particle.color
-            ctx.globalAlpha = (1 - distance / 100) * 0.2
-            ctx.lineWidth = 0.5
+            ctx.moveTo(p1.x, p1.y)
+            ctx.lineTo(p2.x, p2.y)
+            ctx.strokeStyle = p1.color
+            ctx.globalAlpha = opacity
             ctx.stroke()
           }
-        })
-      })
+        }
+      }
 
       ctx.globalAlpha = 1
       animationFrameRef.current = requestAnimationFrame(animate)
     }
 
-    animate()
+    // Start animation
+    animationFrameRef.current = requestAnimationFrame(animate)
 
     return () => {
+      clearTimeout(resizeTimeout)
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('mousemove', handleMouseMove)
       if (animationFrameRef.current) {
@@ -122,13 +162,10 @@ export function ParticleField() {
   }, [])
 
   return (
-    <motion.canvas
+    <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+      className="fixed inset-0 pointer-events-none z-0 opacity-60"
       aria-hidden="true"
     />
   )
-}
+})
