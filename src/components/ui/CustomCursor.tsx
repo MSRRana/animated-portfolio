@@ -91,16 +91,15 @@ export const CustomCursor = memo(function CustomCursor() {
         style={{ x, y, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.div
-          className="rounded-full"
+          className="rounded-full border border-gray-800 dark:border-white/30"
           animate={{
             width: isHovering ? 48 : 32,
             height: isHovering ? 48 : 32,
-            borderColor: isHovering ? 'rgba(16, 185, 129, 0.6)' : 'rgba(255, 255, 255, 0.3)',
+            borderColor: isHovering ? 'rgba(16, 185, 129, 0.6)' : undefined,
             scale: isClicking ? 0.9 : 1,
           }}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
           style={{
-            border: '1px solid',
             background: isHovering ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
           }}
         />
@@ -115,17 +114,17 @@ export const CustomCursor = memo(function CustomCursor() {
           <div className="w-0.5 h-5 bg-emerald-400 rounded-full" />
         ) : (
           <motion.div
-            className="rounded-full"
+            className="rounded-full bg-gray-900 dark:bg-white"
             animate={{
               width: isClicking ? 6 : 8,
               height: isClicking ? 6 : 8,
-              backgroundColor: isHovering ? '#10b981' : '#ffffff',
+              backgroundColor: isHovering ? '#10b981' : undefined,
             }}
             transition={{ duration: 0.15 }}
             style={{
               boxShadow: isHovering
                 ? '0 0 12px rgba(16, 185, 129, 0.6)'
-                : '0 0 8px rgba(255, 255, 255, 0.4)',
+                : '0 0 8px rgba(0, 0, 0, 0.2)',
             }}
           />
         )}

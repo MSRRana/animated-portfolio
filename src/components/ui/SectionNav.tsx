@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -15,30 +15,33 @@ export function SectionNav() {
   const [activeSection, setActiveSection] = useState('hero')
   const [hoveredSection, setHoveredSection] = useState<string | null>(null)
 
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0,
-    }
+  // Use scroll position to determine active section
+  const handleScroll = useCallback(() => {
+    const scrollPosition = window.scrollY + window.innerHeight / 2
 
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const element = document.getElementById(sections[i].id)
+      if (element) {
+        const offsetTop = element.offsetTop
+        if (scrollPosition >= offsetTop) {
+          setActiveSection(sections[i].id)
+          break
         }
-      })
+      }
     }
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-
-    sections.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
-
-    return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    // Initial check
+    handleScroll()
+
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -80,13 +83,13 @@ export function SectionNav() {
               >
                 {/* Outer ring on hover/active */}
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2"
+                  className="absolute inset-0 rounded-full border-2 border-gray-400 dark:border-white/30"
                   animate={{
                     borderColor: isActive
                       ? 'rgba(0, 212, 255, 1)'
                       : isHovered
                         ? 'rgba(168, 85, 247, 0.8)'
-                        : 'rgba(255, 255, 255, 0.3)',
+                        : '',
                     scale: isActive || isHovered ? 1.5 : 1,
                   }}
                   transition={{ duration: 0.2 }}
@@ -94,7 +97,7 @@ export function SectionNav() {
 
                 {/* Inner dot */}
                 <motion.div
-                  className="absolute inset-0 m-auto rounded-full"
+                  className="absolute inset-0 m-auto rounded-full bg-gray-500 dark:bg-white/50"
                   animate={{
                     width: isActive ? '8px' : '6px',
                     height: isActive ? '8px' : '6px',
@@ -102,7 +105,7 @@ export function SectionNav() {
                       ? '#00d4ff'
                       : isHovered
                         ? '#a855f7'
-                        : 'rgba(255, 255, 255, 0.5)',
+                        : '',
                   }}
                   transition={{ duration: 0.2 }}
                 />
