@@ -146,14 +146,6 @@ export function Projects() {
                     ))}
                   </div>
 
-                  {/* View More */}
-                  <motion.button
-                    whileHover={{ x: 5 }}
-                    className="flex items-center gap-2 text-sm sm:text-base text-neon-cyan font-medium group-hover:text-neon-blue transition-colors"
-                  >
-                    View Details
-                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </motion.button>
                 </div>
 
                 {/* Gradient Border */}
