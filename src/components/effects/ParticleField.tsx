@@ -15,7 +15,7 @@ export function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
