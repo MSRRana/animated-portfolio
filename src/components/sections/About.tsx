@@ -107,12 +107,31 @@ export function About() {
         >
           <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
             <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-neon-blue to-neon-violet p-1 flex-shrink-0"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br from-neon-blue via-neon-violet to-neon-cyan p-1 flex-shrink-0 shadow-lg"
             >
-              <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-3xl sm:text-4xl font-bold">
-                MR
+              <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-gray-900 border-2 border-black dark:border-white/10">
+                <img
+                  src={`${import.meta.env.BASE_URL || '/'}assets/profile.jpg`}
+                  alt="Manish Singh Rana - Full Stack Developer"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
+              {/* Animated ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-neon-cyan"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
             </motion.div>
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-2xl sm:text-3xl font-display font-bold mb-3 sm:mb-4">

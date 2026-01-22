@@ -46,14 +46,23 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo with Profile Photo */}
         <motion.a
           href="#"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-xl sm:text-2xl font-display font-bold text-gradient"
+          className="flex items-center gap-3"
         >
-          MR.
+          <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-neon-blue to-neon-violet p-0.5">
+            <img
+              src={`${import.meta.env.BASE_URL || '/'}assets/profile.jpg`}
+              alt="Manish Singh Rana"
+              className="w-full h-full rounded-full object-cover border-2 border-black dark:border-white/10"
+            />
+          </div>
+          <span className="text-xl sm:text-2xl font-display font-bold text-gradient">
+            MR.
+          </span>
         </motion.a>
 
         {/* Desktop Menu */}
