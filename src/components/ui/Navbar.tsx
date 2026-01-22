@@ -8,6 +8,7 @@ const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Games', href: '#games' },
   { name: 'Resume', href: '#resume' },
   { name: 'Contact', href: '#contact' },
 ]
@@ -46,18 +47,47 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo with Profile Photo */}
+        {/* Logo with Animated Profile Photo */}
         <motion.a
           href="#"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-3"
         >
-          <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-neon-blue to-neon-violet p-0.5">
-            <img
-              src={`${import.meta.env.BASE_URL || '/'}assets/profile.jpg`}
-              alt="Manish Singh Rana"
-              className="w-full h-full rounded-full object-cover border-2 border-black dark:border-white/10"
+          <div className="relative w-10 h-10 sm:w-12 sm:h-12 group">
+            {/* Animated rotating gradient ring */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-blue via-neon-violet to-neon-cyan p-0.5"
+              animate={{
+                rotate: 360,
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
+              <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-gray-900 border-2 border-black dark:border-white/10">
+                <img
+                  src={`${import.meta.env.BASE_URL || '/'}assets/profile.jpg`}
+                  alt="Manish Singh Rana"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            </motion.div>
+
+            {/* Pulsing ring on hover */}
+            <motion.div
+              className="absolute inset-0 rounded-full border-2 border-neon-cyan opacity-0 group-hover:opacity-100"
+              animate={{
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             />
           </div>
           <span className="text-xl sm:text-2xl font-display font-bold text-gradient">

@@ -3,16 +3,19 @@ import { CustomCursor } from './components/ui/CustomCursor'
 import { ProgressBar } from './components/ui/ProgressBar'
 import { BackToTop } from './components/ui/BackToTop'
 import { SectionNav } from './components/ui/SectionNav'
+import { ParticleField } from './components/effects/ParticleField'
 import { Hero } from './components/sections/Hero'
 import { About } from './components/sections/About'
 import { Skills } from './components/sections/Skills'
 import { Projects } from './components/sections/Projects'
+import { Games } from './components/sections/Games'
 import { Resume } from './components/sections/Resume'
 import { Contact } from './components/sections/ContactEnhanced'
 
 function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-black text-gray-950 dark:text-white md:cursor-none transition-colors duration-300">
+      <ParticleField />
       <CustomCursor />
       <ProgressBar />
       <BackToTop />
@@ -33,6 +36,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <Games />
         <Resume />
         <Contact />
       </main>
