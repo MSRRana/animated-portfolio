@@ -72,7 +72,7 @@ export function Skills() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
             Tech <span className="text-gradient">Stack</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto px-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
             Mastering modern technologies to build exceptional digital experiences
           </p>
         </motion.div>
@@ -107,7 +107,7 @@ export function Skills() {
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex}>
                     <div className="flex justify-between mb-1.5 sm:mb-2">
-                      <span className="text-sm sm:text-base text-gray-300 font-medium">{skill.name}</span>
+                      <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">{skill.name}</span>
                       <span className="text-sm sm:text-base text-neon-cyan">{skill.level}%</span>
                     </div>
                     <div className="h-1.5 sm:h-2 bg-gray-800 rounded-full overflow-hidden">

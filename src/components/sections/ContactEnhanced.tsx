@@ -113,7 +113,7 @@ export function Contact() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
             Let's <span className="text-gradient">Connect</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
             Looking for a skilled React Native & Full Stack Developer? Let's build something extraordinary together
           </p>
         </motion.div>
@@ -153,7 +153,7 @@ export function Contact() {
               <motion.label
                 htmlFor="name"
                 className={`absolute left-3 sm:left-4 top-2.5 sm:top-3 text-sm sm:text-base pointer-events-none origin-left transition-all ${
-                  errors.name ? 'text-red-500' : focused === 'name' ? 'text-neon-cyan' : 'text-gray-400'
+                  errors.name ? 'text-red-500' : focused === 'name' ? 'text-neon-cyan' : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 Your Name *
@@ -187,7 +187,7 @@ export function Contact() {
               <motion.label
                 htmlFor="email"
                 className={`absolute left-3 sm:left-4 top-2.5 sm:top-3 text-sm sm:text-base pointer-events-none origin-left transition-all ${
-                  errors.email ? 'text-red-500' : focused === 'email' ? 'text-neon-cyan' : 'text-gray-400'
+                  errors.email ? 'text-red-500' : focused === 'email' ? 'text-neon-cyan' : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 Your Email *
@@ -221,7 +221,7 @@ export function Contact() {
               <motion.label
                 htmlFor="message"
                 className={`absolute left-3 sm:left-4 top-2.5 sm:top-3 text-sm sm:text-base pointer-events-none origin-left transition-all ${
-                  errors.message ? 'text-red-500' : focused === 'message' ? 'text-neon-cyan' : 'text-gray-400'
+                  errors.message ? 'text-red-500' : focused === 'message' ? 'text-neon-cyan' : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 Your Message *
@@ -295,7 +295,7 @@ export function Contact() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
-          <p className="text-sm sm:text-base text-gray-400 mb-4 sm:mb-6">Or connect with me on</p>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">Or connect with me on</p>
           <div className="flex justify-center gap-3 sm:gap-4">
             {socialLinks.map((social, index) => (
               <motion.a
@@ -320,7 +320,7 @@ export function Contact() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center text-xs sm:text-sm text-gray-500 mt-12 sm:mt-16 px-4"
+          className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-500 mt-12 sm:mt-16 px-4"
         >
           © 2026 Manish Singh Rana. Transforming ideas into reality, one commit at a time.
         </motion.p>

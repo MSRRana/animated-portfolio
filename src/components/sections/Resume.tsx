@@ -93,7 +93,7 @@ export function Resume() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
             My <span className="text-gradient">Resume</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto px-4 mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4 mb-8">
             Download my resume or view it online to learn more about my experience and qualifications
           </p>
 
@@ -166,7 +166,7 @@ export function Resume() {
                 className="space-y-6"
               >
                 <h3 className="text-2xl sm:text-3xl font-bold mb-4">Professional Summary</h3>
-                <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg">
                   {resumeData.summary}
                 </p>
 
@@ -174,7 +174,7 @@ export function Resume() {
                   <div className="glass p-6 rounded-xl">
                     <Briefcase className="w-8 h-8 text-neon-violet mb-3" />
                     <h4 className="text-xl font-bold mb-2">Quick Stats</h4>
-                    <ul className="space-y-2 text-gray-300">
+                    <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                       <li>✓ 2-3 years of experience in React & React Native</li>
                       <li>✓ Currently Front End Developer at Healiom Inc</li>
                       <li>✓ Led development of apps with 100K+ downloads</li>
@@ -202,11 +202,11 @@ export function Resume() {
                         <h3 className="text-xl sm:text-2xl font-bold">{job.title}</h3>
                         <p className="text-neon-cyan font-semibold">{job.company}</p>
                       </div>
-                      <span className="text-gray-400 text-sm mt-2 sm:mt-0">{job.period}</span>
+                      <span className="text-gray-600 dark:text-gray-400 text-sm mt-2 sm:mt-0">{job.period}</span>
                     </div>
                     <ul className="space-y-2">
                       {job.achievements.map((achievement, idx) => (
-                        <li key={idx} className="text-gray-300 flex items-start gap-3">
+                        <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start gap-3">
                           <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full mt-2 flex-shrink-0" />
                           <span>{achievement}</span>
                         </li>
@@ -234,11 +234,11 @@ export function Resume() {
                         <h3 className="text-xl sm:text-2xl font-bold">{edu.degree}</h3>
                         <p className="text-neon-cyan font-semibold">{edu.institution}</p>
                       </div>
-                      <span className="text-gray-400 text-sm mt-2 sm:mt-0">{edu.period}</span>
+                      <span className="text-gray-600 dark:text-gray-400 text-sm mt-2 sm:mt-0">{edu.period}</span>
                     </div>
                     <ul className="space-y-2">
                       {edu.achievements.map((achievement, idx) => (
-                        <li key={idx} className="text-gray-300 flex items-start gap-3">
+                        <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start gap-3">
                           <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full mt-2 flex-shrink-0" />
                           <span>{achievement}</span>
                         </li>
@@ -346,38 +346,68 @@ export function Resume() {
 
                 {/* PDF Embed - Desktop */}
                 <div className="hidden md:block">
-                  <div className="relative w-full bg-white/5 rounded-xl overflow-hidden border border-white/10" style={{ height: '800px' }}>
+                  <div className="relative w-full bg-gray-100 dark:bg-white/5 rounded-xl overflow-hidden border border-gray-300 dark:border-white/10" style={{ height: '800px' }}>
                     <iframe
                       src={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf#toolbar=1&navpanes=0&scrollbar=1`}
-                      className="w-full h-full"
+                      className="w-full h-full bg-white"
                       title="Resume PDF"
                       style={{ border: 'none' }}
                     />
                   </div>
                 </div>
 
-                {/* PDF Embed - Mobile/Tablet */}
+                {/* Mobile/Tablet View - Download Options */}
                 <div className="md:hidden">
-                  <div className="relative w-full bg-white/5 rounded-xl overflow-hidden border border-white/10" style={{ height: '600px' }}>
-                    <iframe
-                      src={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
-                      className="w-full h-full"
-                      title="Resume PDF"
-                      style={{ border: 'none' }}
-                    />
-                  </div>
+                  <div className="p-6 glass rounded-xl border border-gray-300 dark:border-white/10">
+                    <div className="text-center mb-6">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neon-cyan/10 mb-4">
+                        <FileText className="w-8 h-8 text-neon-cyan" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Resume PDF</h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        View my complete resume with detailed experience, education, and skills
+                      </p>
+                    </div>
 
-                  {/* Mobile Helper Text */}
-                  <div className="mt-4 p-4 glass rounded-xl">
-                    <p className="text-sm text-gray-400 text-center">
-                      💡 <span className="text-white font-semibold">Tip:</span> For best viewing experience on mobile, tap "Open in New Tab" above
-                    </p>
+                    <div className="space-y-3">
+                      {/* Open in Browser Button */}
+                      <motion.a
+                        href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-neon-cyan/10 hover:bg-neon-cyan/20 border border-neon-cyan/30 rounded-xl transition-all group"
+                      >
+                        <ExternalLink className="w-5 h-5 text-neon-cyan" />
+                        <span className="font-semibold text-gray-900 dark:text-white">Open in Browser</span>
+                      </motion.a>
+
+                      {/* Download Button */}
+                      <motion.a
+                        href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}
+                        download="Manish_Singh_Rana_Resume.pdf"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-neon-blue/10 hover:bg-neon-blue/20 border border-neon-blue/30 rounded-xl transition-all group"
+                      >
+                        <Download className="w-5 h-5 text-neon-blue" />
+                        <span className="font-semibold text-gray-900 dark:text-white">Download PDF</span>
+                      </motion.a>
+                    </div>
+
+                    {/* Info Text */}
+                    <div className="mt-4 pt-4 border-t border-gray-300 dark:border-white/10">
+                      <p className="text-xs text-center text-gray-600 dark:text-gray-500">
+                        Use the tabs above to browse my resume content directly on this page
+                      </p>
+                    </div>
                   </div>
                 </div>
 
                 {/* Fallback Message */}
                 <div className="mt-4 p-4 glass rounded-xl">
-                  <p className="text-sm text-gray-400 text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
                     If the PDF doesn't load, you can{' '}
                     <a
                       href={`${import.meta.env.BASE_URL || '/'}assets/resume.pdf`}

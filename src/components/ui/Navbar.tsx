@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Menu, X, Download } from 'lucide-react'
+import { ThemeToggle } from './ThemeToggle'
 
 const navItems = [
   { name: 'Home', href: '#' },
@@ -62,11 +63,12 @@ export function Navbar() {
               key={item.name}
               href={item.href}
               whileHover={{ y: -2 }}
-              className="text-sm lg:text-base text-gray-300 hover:text-white transition-colors font-medium"
+              className="text-sm lg:text-base text-gray-800 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors font-medium"
             >
               {item.name}
             </motion.a>
           ))}
+          <ThemeToggle />
           <motion.button
             onClick={handleResumeDownload}
             whileHover={{ scale: 1.05 }}
@@ -78,13 +80,16 @@ export function Navbar() {
           </motion.button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 glass rounded-lg"
-        >
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        {/* Mobile Menu Button and Theme Toggle */}
+        <div className="md:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 glass rounded-lg"
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -101,7 +106,7 @@ export function Navbar() {
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-gray-300 hover:text-white transition-colors font-medium py-2 text-sm sm:text-base"
+                className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors font-medium py-2 text-sm sm:text-base"
               >
                 {item.name}
               </a>

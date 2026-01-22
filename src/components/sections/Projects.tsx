@@ -66,7 +66,7 @@ export function Projects() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto px-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
             Transforming ideas into impactful digital solutions
           </p>
         </motion.div>
@@ -132,7 +132,7 @@ export function Projects() {
                   <h3 className="text-xl sm:text-2xl font-display font-bold mb-2 sm:mb-3 group-hover:text-gradient transition-all">
                     {project.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4 line-clamp-2">{project.description}</p>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 line-clamp-2">{project.description}</p>
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">

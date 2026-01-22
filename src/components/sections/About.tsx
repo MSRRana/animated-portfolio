@@ -50,7 +50,7 @@ export function About() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
             About <span className="text-gradient">Me</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto px-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
             Transforming ideas into seamless mobile and web experiences with 2+ years of expertise
           </p>
         </motion.div>
@@ -83,7 +83,7 @@ export function About() {
                   <h3 className="text-lg sm:text-xl md:text-2xl font-display font-semibold mb-2 group-hover:text-gradient transition-all">
                     {item.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-400">{item.description}</p>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{item.description}</p>
                 </motion.div>
               </div>
 
@@ -118,18 +118,18 @@ export function About() {
               <h3 className="text-2xl sm:text-3xl font-display font-bold mb-3 sm:mb-4">
                 Building <span className="text-gradient">Impactful Solutions</span>
               </h3>
-              <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-3 sm:mb-4">
                 I'm Manish Singh Rana, a passionate Front End Developer with 2+ years of experience specializing
                 in React Native and ReactJS. Currently working at Healiom Inc (California), I've expertly developed
                 advanced user interfaces, incorporating 3rd-party SDKs like Zoom and Stream Chat, web sockets, and
                 robust API integrations.
               </p>
-              <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-3 sm:mb-4">
                 I transform complex Figma designs into intuitive, user-centric interfaces and have published
                 numerous apps on the App Store and Play Store. With a Master's in Mathematics from Gurukul Kangri
                 University, I bring strong problem-solving skills and a commitment to continuous learning.
               </p>
-              <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-3 sm:mb-4">
                 Based in Uttrakhand, India, I'm eager to leverage my expertise as I transition to a full-stack
                 developer role, contributing front-end mastery while expanding across the tech stack.
               </p>

@@ -9,7 +9,7 @@ import { Contact } from './components/sections/ContactEnhanced'
 
 function App() {
   return (
-    <div className="min-h-screen bg-black text-white md:cursor-none">
+    <div className="min-h-screen bg-white dark:bg-black text-gray-950 dark:text-white md:cursor-none transition-colors duration-300">
       <CustomCursor />
 
       {/* Skip to main content link for accessibility */}
