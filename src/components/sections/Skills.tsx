@@ -1,51 +1,45 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Code2, Database, Cloud, Sparkles } from 'lucide-react'
 import { SectionTitle } from '../ui/SectionTitle'
 
-const skillCategories = [
+/**
+ * A two-column table of tools and the reason I reach for each one.
+ * Percent bars and tech-stack logos lie. Words don't.
+ * Rewrite the `why` column in your own voice — it's the whole point.
+ */
+type Row = { tool: string; why: string }
+
+const rows: { group: string; entries: Row[] }[] = [
   {
-    title: 'Mobile Development',
-    icon: Code2,
-    color: 'from-neon-blue to-cyan-500',
-    skills: [
-      { name: 'React Native', level: 95 },
-      { name: 'React Hooks', level: 93 },
-      { name: 'Redux', level: 90 },
-      { name: 'JavaScript', level: 92 },
+    group: 'Client',
+    entries: [
+      { tool: 'React Native',  why: 'A single codebase for iOS and Android with enough native escape hatches when performance matters.' },
+      { tool: 'React',         why: 'Composable, inspectable, and the surface I can move fastest on without losing control.' },
+      { tool: 'TypeScript',    why: 'A conversation with the compiler beats reading stack traces at 2am.' },
+      { tool: 'Tailwind',      why: 'Design tokens become muscle memory; my CSS diffs stay small and reviewable.' },
     ],
   },
   {
-    title: 'Web Development',
-    icon: Database,
-    color: 'from-neon-violet to-purple-500',
-    skills: [
-      { name: 'ReactJS', level: 95 },
-      { name: 'HTML / CSS', level: 93 },
-      { name: 'Tailwind CSS', level: 90 },
-      { name: 'Responsive Design', level: 92 },
+    group: 'Motion & 3D',
+    entries: [
+      { tool: 'Framer Motion', why: 'Declarative motion that matches the mental model of React — choreography, not imperative timers.' },
+      { tool: 'Three.js / R3F', why: 'When a scene is the product. R3F keeps the scene graph reactive and debuggable.' },
     ],
   },
   {
-    title: 'Backend & Tools',
-    icon: Cloud,
-    color: 'from-neon-cyan to-teal-500',
-    skills: [
-      { name: 'Firebase', level: 88 },
-      { name: 'REST APIs', level: 92 },
-      { name: 'Git / GitHub', level: 90 },
-      { name: 'Elastic Search', level: 80 },
+    group: 'Platform',
+    entries: [
+      { tool: 'Node.js',       why: 'The same language across the boundary — fewer context switches, faster iteration.' },
+      { tool: 'Firebase',      why: 'Auth, realtime data, and hosting from one console when the team is small and the deadline is real.' },
+      { tool: 'REST · WebSocket', why: 'Pick the lower-overhead surface per endpoint; WebSockets only where latency is the feature.' },
     ],
   },
   {
-    title: 'Testing & Collaboration',
-    icon: Sparkles,
-    color: 'from-neon-pink to-rose-500',
-    skills: [
-      { name: 'Detox Testing', level: 85 },
-      { name: 'Postman', level: 88 },
-      { name: 'JIRA', level: 85 },
-      { name: 'Slack', level: 90 },
+    group: 'Craft',
+    entries: [
+      { tool: 'Detox',         why: 'End-to-end tests on real devices catch the class of bugs unit tests never see.' },
+      { tool: 'Figma',         why: 'Design decisions live where the designer can change them, not in my git log.' },
+      { tool: 'Git · GitHub',  why: 'Small commits, readable PRs, and a history I can explain to the next person.' },
     ],
   },
 ]
@@ -56,102 +50,48 @@ export function Skills() {
 
   return (
     <section id="skills" className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
-
-      <div ref={ref} className="relative max-w-7xl mx-auto">
+      <div ref={ref} className="relative max-w-4xl mx-auto">
         <SectionTitle
+          numeral="II"
           eyebrow="Craft"
           title={<>The tools I reach for</>}
-          lede="Modern technologies chosen for clarity, resilience, and joy to use."
+          lede="Not a logo wall and not a percentage bar. A short list of what I use and why — rewrite in your own hand over time."
         />
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={categoryIndex}
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-              whileHover={{ scale: 1.02, y: -5 }}
-              className="glass p-6 sm:p-8 rounded-3xl group cursor-pointer"
+        <div className="space-y-12 sm:space-y-14">
+          {rows.map((section, si) => (
+            <motion.section
+              key={section.group}
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: si * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
             >
-              {/* Category Header */}
-              <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                  className={`p-2.5 sm:p-3 rounded-xl bg-gradient-to-br ${category.color}`}
-                >
-                  <category.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </motion.div>
-                <h3 className="text-xl sm:text-2xl font-display font-bold group-hover:text-gradient transition-all">
-                  {category.title}
-                </h3>
-              </div>
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.22em] text-ash-400 dark:text-ash-300 mb-5 sm:mb-6">
+                {section.group}
+              </h3>
 
-              {/* Skills List */}
-              <div className="space-y-3 sm:space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex}>
-                    <div className="flex justify-between mb-1.5 sm:mb-2">
-                      <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">{skill.name}</span>
-                      <span className="text-sm sm:text-base text-neon-cyan">{skill.level}%</span>
-                    </div>
-                    <div className="h-1.5 sm:h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={isInView ? { width: `${skill.level}%` } : {}}
-                        transition={{
-                          duration: 1,
-                          delay: categoryIndex * 0.1 + skillIndex * 0.1 + 0.3,
-                          ease: 'easeOut',
-                        }}
-                        className={`h-full bg-gradient-to-r ${category.color} rounded-full`}
-                      />
-                    </div>
-                  </div>
+              <dl className="divide-y divide-ink/10 dark:divide-parchment/10 border-t border-ink/10 dark:border-parchment/10">
+                {section.entries.map((row, ri) => (
+                  <motion.div
+                    key={row.tool}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: si * 0.08 + ri * 0.06 + 0.15 }}
+                    className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-6 py-4 sm:py-5"
+                  >
+                    <dt className="font-serif text-lg sm:text-xl text-ink dark:text-parchment tracking-tight"
+                        style={{ fontVariationSettings: "'opsz' 72, 'SOFT' 50, 'wght' 420" }}>
+                      {row.tool}
+                    </dt>
+                    <dd className="text-[15px] sm:text-base text-ash-500 dark:text-ash-200 leading-relaxed">
+                      {row.why}
+                    </dd>
+                  </motion.div>
                 ))}
-              </div>
-            </motion.div>
+              </dl>
+            </motion.section>
           ))}
         </div>
-
-        {/* Tools Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 sm:mt-16 glass p-6 sm:p-8 rounded-3xl"
-        >
-          <h3 className="text-xl sm:text-2xl font-display font-bold mb-4 sm:mb-6 text-center">
-            Development <span className="text-gradient">Tools</span>
-          </h3>
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
-            {[
-              'VS Code',
-              'Git',
-              'Figma',
-              'Postman',
-              'Firebase',
-              'Redux',
-              'Slack',
-              'JIRA',
-              'Zoom SDK',
-              'Stream Chat',
-            ].map((tool, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.8 + index * 0.05 }}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 glass rounded-full text-xs sm:text-sm md:text-base font-medium hover:shadow-neon-cyan transition-all cursor-pointer"
-              >
-                {tool}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   )

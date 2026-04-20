@@ -71,6 +71,7 @@ export function Projects() {
 
       <div ref={ref} className="relative max-w-7xl mx-auto">
         <SectionTitle
+          numeral="III"
           eyebrow="Selected work"
           title={<>Things I&rsquo;ve made</>}
           lede="A small collection. Each one is here because a decision inside it is worth talking about."

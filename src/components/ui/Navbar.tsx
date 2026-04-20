@@ -4,13 +4,12 @@ import { Menu, X, Download } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 
 const navItems = [
-  { name: 'Home', href: '#' },
-  { name: 'About', href: '#about' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Games', href: '#games' },
-  { name: 'Resume', href: '#resume' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contents', href: '#' },
+  { name: 'I. About', href: '#about' },
+  { name: 'II. Craft', href: '#skills' },
+  { name: 'III. Work', href: '#projects' },
+  { name: 'IV. Résumé', href: '#resume' },
+  { name: 'V. Correspondence', href: '#contact' },
 ]
 
 export function Navbar() {

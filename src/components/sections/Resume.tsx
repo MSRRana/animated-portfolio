@@ -82,6 +82,7 @@ export function Resume() {
     <section id="resume" className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
       <div ref={ref} className="relative max-w-7xl mx-auto">
         <SectionTitle
+          numeral="IV"
           eyebrow="Résumé"
           title={<>The long form</>}
           lede="A fuller account of the work — download the PDF or read it in place."

@@ -2,13 +2,13 @@ import { motion } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
 
 const sections = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'games', label: 'Games' },
-  { id: 'resume', label: 'Resume' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'hero',     label: 'Contents' },
+  { id: 'about',    label: 'I · About' },
+  { id: 'skills',   label: 'II · Craft' },
+  { id: 'projects', label: 'III · Work' },
+  { id: 'resume',   label: 'IV · Résumé' },
+  { id: 'contact',  label: 'V · Correspondence' },
+  { id: 'index',    label: 'Index' },
 ]
 
 export function SectionNav() {
