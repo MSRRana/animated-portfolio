@@ -31,8 +31,11 @@ const SectionLoading = () => (
 
 function App() {
   return (
-    <div className="min-h-screen bg-parchment dark:bg-ink text-ink dark:text-parchment md:cursor-none transition-colors duration-300">
-      {/* Shared 3D atmosphere — camera flies through waypoints as the page scrolls */}
+    <div className="min-h-screen text-ink dark:text-parchment md:cursor-none transition-colors duration-300">
+      {/* Shared 3D atmosphere — camera flies through waypoints as the page scrolls.
+          The root div is intentionally background-transparent so this fixed canvas
+          (z-index -10) isn't occluded by a parent paint. The parchment/ink fill
+          lives on <html> (see index.css). */}
       <Suspense fallback={null}>
         <Scene />
       </Suspense>
