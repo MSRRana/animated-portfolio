@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Code2, Database, Cloud, Sparkles } from 'lucide-react'
+import { SectionTitle } from '../ui/SectionTitle'
 
 const skillCategories = [
   {
@@ -55,27 +56,13 @@ export function Skills() {
 
   return (
     <section id="skills" className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-neon-blue/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-neon-violet/10 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
-            Tech <span className="text-gradient">Stack</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
-            Mastering modern technologies to build exceptional digital experiences
-          </p>
-        </motion.div>
+        <SectionTitle
+          eyebrow="Craft"
+          title={<>The tools I reach for</>}
+          lede="Modern technologies chosen for clarity, resilience, and joy to use."
+        />
 
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">

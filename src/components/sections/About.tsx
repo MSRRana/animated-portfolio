@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Code2, Sparkles, Zap, Rocket } from 'lucide-react'
+import { SectionTitle } from '../ui/SectionTitle'
 
 const timeline = [
   {
@@ -37,23 +38,13 @@ export function About() {
   return (
     <section id="about" className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
       {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
       <div ref={ref} className="relative max-w-7xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
-            About <span className="text-gradient">Me</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
-            Transforming ideas into seamless mobile and web experiences with 2+ years of expertise
-          </p>
-        </motion.div>
+        <SectionTitle
+          eyebrow="About"
+          title={<>A quiet introduction</>}
+          lede="Transforming ideas into seamless mobile and web experiences with 2+ years of expertise."
+        />
 
         {/* Timeline */}
         <div className="relative">

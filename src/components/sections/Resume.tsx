@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Download, Eye, FileText, Briefcase, GraduationCap, Code, ExternalLink } from 'lucide-react'
+import { SectionTitle } from '../ui/SectionTitle'
 
 // Resume data
 const resumeData = {
@@ -79,24 +80,19 @@ export function Resume() {
 
   return (
     <section id="resume" className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(168,85,247,0.1),transparent_50%)]" />
-
       <div ref={ref} className="relative max-w-7xl mx-auto">
-        {/* Section Header */}
+        <SectionTitle
+          eyebrow="Résumé"
+          title={<>The long form</>}
+          lede="A fuller account of the work — download the PDF or read it in place."
+        />
+
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
-            My <span className="text-gradient">Resume</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4 mb-8">
-            Download my resume or view it online to learn more about my experience and qualifications
-          </p>
-
           {/* Download Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

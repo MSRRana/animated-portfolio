@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Field, FieldGroup, FieldLabel, FieldDescription, FieldError } from '@/components/ui/field'
 import { cn } from '@/lib/utils'
+import { SectionTitle } from '@/components/ui/SectionTitle'
 
 const socialLinks = [
   { icon: FaLinkedin, href: 'https://linkedin.com/in/manish-singh-rana-b8008b163', label: 'LinkedIn', color: 'hover:text-blue-500' },
@@ -83,20 +84,11 @@ export function Contact() {
       <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-violet-50/50 to-gray-50 dark:from-black dark:via-neon-violet/5 dark:to-black" />
 
       <div ref={ref} className="relative max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-6">
-            Let's <span className="text-gradient">Connect</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-            Looking for a skilled React Native & Full Stack Developer? Let's build something extraordinary together
-          </p>
-        </motion.div>
+        <SectionTitle
+          eyebrow="Contact"
+          title={<>Say hello</>}
+          lede="Roles, collaborations, or a quiet question — I read everything."
+        />
 
         {/* Form Card */}
         <motion.div

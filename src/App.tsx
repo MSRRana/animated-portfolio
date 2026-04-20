@@ -5,6 +5,7 @@ import { ProgressBar } from './components/ui/ProgressBar'
 import { BackToTop } from './components/ui/BackToTop'
 import { SectionNav } from './components/ui/SectionNav'
 import { ParticleField } from './components/effects/ParticleField'
+import { SilkThread } from './components/effects/SilkThread'
 import { Hero } from './components/sections/Hero'
 
 // Lazy load below-the-fold sections for faster initial load
@@ -24,8 +25,9 @@ const SectionLoading = () => (
 
 function App() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-gray-950 dark:text-white md:cursor-none transition-colors duration-300">
+    <div className="min-h-screen bg-parchment dark:bg-ink text-ink dark:text-parchment md:cursor-none transition-colors duration-300">
       <ParticleField />
+      <SilkThread />
       <CustomCursor />
       <ProgressBar />
       <BackToTop />
