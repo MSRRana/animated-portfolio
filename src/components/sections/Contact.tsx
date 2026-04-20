@@ -85,7 +85,8 @@ export function Contact() {
 
       <div ref={ref} className="relative max-w-4xl mx-auto">
         <SectionTitle
-          eyebrow="Contact"
+          numeral="V"
+          eyebrow="Correspondence"
           title={<>Say hello</>}
           lede="Roles, collaborations, or a quiet question — I read everything."
         />

@@ -5,17 +5,27 @@
 @tailwind utilities;
 
 @layer base {
+  /* Base fill lives on <body>, not the app root. A negative-z-index child
+     (the 3D <Scene>) is painted behind sibling content but NOT behind its
+     parent's own painted background — so the App root must stay transparent
+     or the Scene disappears. */
+  html {
+    scroll-behavior: smooth;
+    background-color: #f6f2ea; /* parchment */
+    color: #0a0a12; /* ink */
+  }
+  html.dark {
+    background-color: #0a0a12; /* ink */
+    color: #f6f2ea; /* parchment */
+  }
   body {
+    background-color: transparent;
     font-family: 'Inter', system-ui, sans-serif;
     font-feature-settings: 'ss01', 'cv11', 'kern';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  html {
-    scroll-behavior: smooth;
   }
 
   /* Fraunces tuned for display: large optical size, soft terminals, tasteful italics */
