@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Terminal, Code, Zap, Trophy, Target, Gamepad2 } from 'lucide-react'
+import { Terminal, Code, Zap, Trophy, Target } from 'lucide-react'
 import { TerminalGame } from '../games/TerminalGame'
 import { TypingChallenge } from '../games/TypingChallenge'
+import { SectionTitle } from '../ui/SectionTitle'
 
 export function Games() {
   const [showTerminal, setShowTerminal] = useState(false)
@@ -45,25 +46,11 @@ export function Games() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Gamepad2 className="w-8 h-8 text-neon-cyan" />
-            <h2 className="text-4xl sm:text-5xl font-display font-bold text-gradient">
-              Interactive Games
-            </h2>
-          </div>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Experience my portfolio in a unique way. Play games, explore with terminal commands,
-            and test your coding skills.
-          </p>
-        </motion.div>
+        <SectionTitle
+          eyebrow="Intermission"
+          title={<>A little play</>}
+          lede="A terminal to wander, a typing test for the restless hands. Optional, unranked, no pressure."
+        />
 
         {/* Stats */}
         <motion.div

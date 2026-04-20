@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,48 +7,64 @@
 @layer base {
   body {
     font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11', 'kern';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  /* Fraunces tuned for display: large optical size, soft terminals, tasteful italics */
+  .font-serif,
+  .font-display-serif {
+    font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+    letter-spacing: -0.015em;
+  }
+
+  /* Optical margin — hang punctuation into the gutter on large display text */
+  .hang-punct {
+    hanging-punctuation: first last;
+  }
 }
 
 @layer utilities {
+  /* `text-gradient` used to be a cyan→violet→cyan gradient. Retired to a single
+     restrained accent so emphasis reads as considered, not loud. Italic Fraunces
+     should carry emphasis — this just keeps legacy usages harmless. */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-neon-blue via-neon-violet to-neon-cyan;
+    color: #6b7ba7;
+  }
+  .dark .text-gradient {
+    color: #a8b4d4;
   }
 
   .glass {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     transition: all 0.3s ease;
   }
 
-  /* Light mode glass */
+  /* Light mode glass — parchment tint */
   .glass {
-    background-color: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(16, 14, 10, 0.04);
+    border: 1px solid rgba(16, 14, 10, 0.08);
   }
 
-  /* Dark mode glass */
+  /* Dark mode glass — ink tint */
   .dark .glass {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(246, 242, 234, 0.035);
+    border: 1px solid rgba(246, 242, 234, 0.08);
   }
 
-  .glow-border {
-    @apply relative;
-  }
-
-  .glow-border::before {
-    content: '';
-    @apply absolute inset-0 rounded-lg opacity-75 blur-xl;
-    background: linear-gradient(45deg, #00d4ff, #a855f7, #06b6d4);
-    z-index: -1;
+  /* Tabular figures for date columns, resume, any aligned numbers */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 }
 

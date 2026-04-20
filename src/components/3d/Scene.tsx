@@ -21,14 +21,15 @@ export const Scene = memo(function Scene() {
   return (
     <div className="absolute inset-0 -z-10">
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 50 }}
-        dpr={isMobile ? 1 : [1, 1.5]} // Lower pixel ratio overall
-        performance={{ min: 0.3 }} // More aggressive frame drop allowed
-        frameloop={isMobile ? 'demand' : 'always'} // On-demand rendering on mobile
+        camera={{ position: [0, 0, 5], fov: 45 }}
+        dpr={isMobile ? 1 : [1, 1.5]}
+        performance={{ min: 0.3 }}
+        frameloop={isMobile ? 'demand' : 'always'}
       >
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.8} />
-        <pointLight position={[-10, -10, -10]} intensity={0.4} />
+        {/* Observatory lighting — low, directional, moonlit */}
+        <ambientLight intensity={0.28} color="#b8c6ff" />
+        <spotLight position={[6, 8, 6]} angle={0.25} penumbra={1} intensity={0.55} color="#e9ecff" />
+        <pointLight position={[-8, -4, -6]} intensity={0.25} color="#a855f7" />
 
         <FloatingOrb />
 
@@ -36,10 +37,10 @@ export const Scene = memo(function Scene() {
           enableZoom={false}
           enablePan={false}
           autoRotate={!isMobile}
-          autoRotateSpeed={0.4}
+          autoRotateSpeed={0.18}
           enabled={!isMobile}
         />
-        <Environment preset="city" />
+        <Environment preset="night" />
       </Canvas>
     </div>
   )
